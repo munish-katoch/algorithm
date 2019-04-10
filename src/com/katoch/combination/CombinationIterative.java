@@ -26,22 +26,30 @@ public class CombinationIterative {
 
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> list = new ArrayList<>();
+        List<Integer> tempList = new ArrayList<>();
         Arrays.sort(nums);
+
         Stack<Integer> stack = new Stack<Integer>();
         stack.push(null);
         int start = 0;
 
         while( !stack.isEmpty() ) {
             Integer val = stack.pop();
-            List<Integer> tempList = new ArrayList<>();
-            for(int i = start; i < nums.length; i++) {
-                tempList.add(nums[i]);
-                //backtrack(list, tempList, nums, i + 1);
-                start = i+1;
-                if (i+1 <= nums.length-1) stack.push(nums[i+1]);
+            if (val != null) tempList.add(val);
+            list.add(new ArrayList<>(tempList));
+
+            //tempList = new ArrayList<>();
+            if ( start < nums.length ) {
+
+                stack.push(nums[start]);
+                start++;
+                //break;
+            } else {
+                start--;
+                stack.push(nums[start]);
+
                 tempList.remove(tempList.size() - 1);
             }
-            list.add(new ArrayList<>(tempList));
         }
         return list;
     }
